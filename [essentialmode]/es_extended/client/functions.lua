@@ -622,10 +622,50 @@ ESX.Game.GetPeds = function(ignoreList)
 
 	return peds
 end
+--LosOceEdit
+ESX.Game.GetPedsReverse = function(ignoreList)
+	local ignoreList = ignoreList or {}
+	local peds       = {}
+
+	for ped in EnumeratePeds() do
+		local found = true
+
+		for j=1, #ignoreList, 1 do
+			if ignoreList[j] == ped then
+				found = false
+			end
+		end
+
+		if found then
+			table.insert(peds, ped)
+		end
+	end
+
+	return peds
+end
 
 ESX.Game.GetClosestPed = function(coords, ignoreList)
 	local ignoreList      = ignoreList or {}
 	local peds            = ESX.Game.GetPeds(ignoreList)
+	local closestDistance = -1
+	local closestPed      = -1
+
+	for i=1, #peds, 1 do
+		local pedCoords = GetEntityCoords(peds[i])
+		local distance  = GetDistanceBetweenCoords(pedCoords, coords.x, coords.y, coords.z, true)
+
+		if closestDistance == -1 or closestDistance > distance then
+			closestPed      = peds[i]
+			closestDistance = distance
+		end
+	end
+
+	return closestPed, closestDistance
+end
+--LosOceEdit
+ESX.Game.GetClosestPedReverse = function(coords, ignoreList)
+	local ignoreList      = ignoreList or {}
+	local peds            = ESX.Game.GetPedsReverse(ignoreList)
 	local closestDistance = -1
 	local closestPed      = -1
 
