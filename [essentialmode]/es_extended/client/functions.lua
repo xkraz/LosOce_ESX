@@ -662,7 +662,6 @@ ESX.Game.GetPedsReverse = function(ignoreList)
 	return peds
 end
 
---LosOceEdit
 ESX.Game.GetClosestPed = function(coords, ignoreList)
 	local ignoreList      = ignoreList or {}
 	local peds            = ESX.Game.GetPeds(ignoreList)
